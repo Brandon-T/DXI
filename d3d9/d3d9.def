@@ -1,0 +1,26 @@
+﻿;     @Author : Brandon T.
+;
+;     @param  : D3D9 Definition File.
+;     @param  : Info From MSDN Documentation.
+
+
+LIBRARY d3d9
+DESCRIPTION "D3D9 Definition File"
+EXPORTS
+
+
+D3DPERF_BeginEvent                              = DXHook_D3DPERF_BeginEvent
+D3DPERF_EndEvent                                = DXHook_D3DPERF_EndEvent
+D3DPERF_GetStatus                               = DXHook_D3DPERF_GetStatus
+D3DPERF_QueryRepeatFrame                        = DXHook_D3DPERF_QueryRepeatFrame
+D3DPERF_SetMarker                               = DXHook_D3DPERF_SetMarker
+D3DPERF_SetOptions                              = DXHook_D3DPERF_SetOptions
+D3DPERF_SetRegion                               = DXHook_D3DPERF_SetRegion
+DebugSetLevel                                   = DXHook_DebugSetLevel
+DebugSetMute                                    = DXHook_DebugSetMute
+Direct3D9EnableMaximizedWindowedModeShim        = DXHook_Direct3D9EnableMaximizedWindowedModeShim
+Direct3DCreate9                                 = DXHook_Direct3DCreate9
+Direct3DCreate9Ex                               = DXHook_Direct3DCreate9Ex
+Direct3DShaderValidatorCreate9                  = DXHook_Direct3DShaderValidatorCreate9
+PSGPError                                       = DXHook_PSGPError
+PSGPSampleTexture                               = DXHook_PSGPSampleTexture
