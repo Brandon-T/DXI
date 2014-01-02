@@ -21,7 +21,12 @@ ULONG IDirect3D9Proxy::AddRef()
 
 ULONG IDirect3D9Proxy::Release()
 {
-    return ptr_IDirect3D9->Release();
+    ULONG ReferenceCount = ptr_IDirect3D9->Release();
+    if (ReferenceCount == 0)
+    {
+        delete this;
+    }
+    return ReferenceCount;
 }
 
 HRESULT IDirect3D9Proxy::RegisterSoftwareDevice(void* pInitializeFunction)
@@ -91,8 +96,7 @@ HMONITOR IDirect3D9Proxy::GetAdapterMonitor(UINT Adapter)
 
 HRESULT IDirect3D9Proxy::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface)
 {
-    IDirect3DDevice9* pDirect3DDevice9 = nullptr;
-    HRESULT hRes = ptr_IDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, &pDirect3DDevice9);
-    *ppReturnedDeviceInterface = new Direct3DDevice9Proxy(ppReturnedDeviceInterface);
+    HRESULT hRes = ptr_IDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
+    *ppReturnedDeviceInterface = hRes == S_OK ? new Direct3DDevice9Proxy(*ppReturnedDeviceInterface) : nullptr;
     return hRes;
 }

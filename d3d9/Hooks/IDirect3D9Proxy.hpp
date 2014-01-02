@@ -2,6 +2,7 @@
 #define IDIRECT3D9PROXY_HPP_INCLUDED
 
 #include <d3d9.h>
+#include "Direct3DDevice9Proxy.hpp"
 
 class IDirect3D9Proxy : public IDirect3D9
 {

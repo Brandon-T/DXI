@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1387569761 source:c:\users\brandon\desktop\llbhook\injector\main.cpp
+	<iostream>
+	<windows.h>
+	<TlHelp32.h>
+

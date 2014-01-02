@@ -23,10 +23,10 @@ bool __stdcall Initialize(void)
 	    OriginalDX->FunctionAddress(d3d9.D3DPERF_QueryRepeatFrame, "D3DPERF_QueryRepeatFrame");
 	    OriginalDX->FunctionAddress(d3d9.D3DPERF_SetMarker, "D3DPERF_SetMarker");
 	    OriginalDX->FunctionAddress(d3d9.D3DPERF_SetOptions, "D3DPERF_SetOptions");
-	    OriginalDX->FunctionAddress(d3d9.D3DPERF_SetRegion, "D3DPERF_Region");
+	    OriginalDX->FunctionAddress(d3d9.D3DPERF_SetRegion, "D3DPERF_SetRegion");
 	    OriginalDX->FunctionAddress(d3d9.DebugSetLevel, "DebugSetLevel");
 	    OriginalDX->FunctionAddress(d3d9.DebugSetMute, "DebugSetMute");
-	    OriginalDX->FunctionAddress(d3d9.Direct3D9EnableMaximizedWindowedModeShim, "Direct3D9EnableMaximizedWindowedModeShim");
+	    //OriginalDX->FunctionAddress(d3d9.Direct3D9EnableMaximizedWindowedModeShim, "Direct3D9EnableMaximizedWindowedModeShim");
 		OriginalDX->FunctionAddress(d3d9.Direct3DCreate9, "Direct3DCreate9");
 		OriginalDX->FunctionAddress(d3d9.Direct3DCreate9Ex, "Direct3DCreate9Ex");
 		OriginalDX->FunctionAddress(d3d9.Direct3DShaderValidatorCreate9, "Direct3DShaderValidatorCreate9");
@@ -52,7 +52,7 @@ bool __stdcall DeInitialize(void)
 	return false;
 }
 
-void DXHook_D3DPERF_BeginEvent()
+void __stdcall DXHook_D3DPERF_BeginEvent()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_BeginEvent]}
@@ -61,7 +61,7 @@ void DXHook_D3DPERF_BeginEvent()
     #endif
 }
 
-void DXHook_D3DPERF_EndEvent()
+void __stdcall DXHook_D3DPERF_EndEvent()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_EndEvent]}
@@ -70,7 +70,7 @@ void DXHook_D3DPERF_EndEvent()
     #endif
 }
 
-void DXHook_D3DPERF_GetStatus()
+void __stdcall DXHook_D3DPERF_GetStatus()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_GetStatus]}
@@ -79,7 +79,7 @@ void DXHook_D3DPERF_GetStatus()
     #endif
 }
 
-void DXHook_D3DPERF_QueryRepeatFrame()
+void __stdcall DXHook_D3DPERF_QueryRepeatFrame()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_QueryRepeatFrame]}
@@ -88,7 +88,7 @@ void DXHook_D3DPERF_QueryRepeatFrame()
     #endif
 }
 
-void DXHook_D3DPERF_SetMarker()
+void __stdcall DXHook_D3DPERF_SetMarker()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_SetMarker]}
@@ -97,7 +97,7 @@ void DXHook_D3DPERF_SetMarker()
     #endif
 }
 
-void DXHook_D3DPERF_SetOptions()
+void __stdcall DXHook_D3DPERF_SetOptions()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_SetOptions]}
@@ -106,7 +106,7 @@ void DXHook_D3DPERF_SetOptions()
     #endif
 }
 
-void DXHook_D3DPERF_SetRegion()
+void __stdcall DXHook_D3DPERF_SetRegion()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.D3DPERF_SetRegion]}
@@ -115,7 +115,7 @@ void DXHook_D3DPERF_SetRegion()
     #endif
 }
 
-void DXHook_DebugSetLevel()
+void __stdcall DXHook_DebugSetLevel()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.DebugSetLevel]}
@@ -124,7 +124,7 @@ void DXHook_DebugSetLevel()
     #endif
 }
 
-void DXHook_DebugSetMute()
+void __stdcall DXHook_DebugSetMute()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.DebugSetMute]}
@@ -133,23 +133,14 @@ void DXHook_DebugSetMute()
     #endif
 }
 
-void DXHook_Direct3D9EnableMaximizedWindowedModeShim()
-{
-    #ifdef _MSC_VER
-    _asm{jmp[d3d9.Direct3D9EnableMaximizedWindowedModeShim]}
-    #else
-    __asm("jmp *%0":: "r" (d3d9.Direct3D9EnableMaximizedWindowedModeShim):);
-    #endif
-}
-
-IDirect3D9* DXHook_Direct3DCreate9(UINT SDKVersion)
+IDirect3D9* __stdcall DXHook_Direct3DCreate9(UINT SDKVersion)
 {
     typedef IDirect3D9* (__stdcall *D3D9_Type) (UINT SDKVersion);
-    IDirect3D9* pOriginal = reinterpret_cast<D3D9_Type>(d3d9.Direct3DCreate9)(SDKVersion);
+    IDirect3D9* pOriginal = (reinterpret_cast<D3D9_Type>(d3d9.Direct3DCreate9))(SDKVersion);
     return (D3D9Proxy = new IDirect3D9Proxy(pOriginal));
 }
 
-void DXHook_Direct3DCreate9Ex()
+void __stdcall DXHook_Direct3DCreate9Ex()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.Direct3DCreate9Ex]}
@@ -158,7 +149,7 @@ void DXHook_Direct3DCreate9Ex()
     #endif
 }
 
-void DXHook_Direct3DShaderValidatorCreate9()
+void __stdcall DXHook_Direct3DShaderValidatorCreate9()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.Direct3DShaderValidatorCreate9]}
@@ -167,7 +158,7 @@ void DXHook_Direct3DShaderValidatorCreate9()
     #endif
 }
 
-void DXHook_PSGPError()
+void __stdcall DXHook_PSGPError()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.PSGPError]}
@@ -176,7 +167,7 @@ void DXHook_PSGPError()
     #endif
 }
 
-void DXHook_PSGPSampleTexture()
+void __stdcall DXHook_PSGPSampleTexture()
 {
     #ifdef _MSC_VER
     _asm{jmp[d3d9.PSGPSampleTexture]}
