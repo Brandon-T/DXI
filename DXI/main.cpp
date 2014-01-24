@@ -80,7 +80,7 @@ bool UnMapSharedMemory()
 
 extern "C" bool __declspec(dllexport) DXISetup(int ProcessID)
 {
-    return (CreateSharedMemory(ProcessID) || OpenSharedMemory(ProcessID));
+    return OpenSharedMemory(ProcessID);
 }
 
 extern "C" void* __declspec(dllexport) DXIImagePointer()

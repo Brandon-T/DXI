@@ -1,0 +1,220 @@
+/**  © 2013, Brandon T. All Rights Reserved.
+  *
+  *  This file is part of the DXI Library.
+  *  DXI is free software: you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
+  *  the Free Software Foundation, either version 3 of the License, or
+  *  (at your option) any later version.
+  *
+  *  DXI is distributed in the hope that it will be useful,
+  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  *  GNU General Public License for more details.
+  *
+  *  You should have received a copy of the GNU General Public License
+  *  along with DXI.  If not, see <http://www.gnu.org/licenses/>.
+  */
+
+#include "SmartPlugin.hpp"
+#include <iostream>
+
+ID3DXSprite* Sprite = nullptr;
+IDirect3DTexture9* Texture = nullptr;
+unsigned char* TexturePixels = nullptr;
+SMARTInfo* SmartGlobal = nullptr;
+bool SmartDebugEnabled = false;
+bool SmartDirectXEnabled = true;
+
+void SMARTButtonPressed(int ID, bool State)
+{
+    switch(ID)
+    {
+        case 100:
+            if (State)
+            {
+                SmartGlobal->setCapture(false);
+                SmartDirectXEnabled = true;
+            }
+            else
+            {
+                SmartGlobal->setCapture(true);
+                SmartDirectXEnabled = false;
+            }
+            break;
+
+        case 101:
+            SmartDebugEnabled = State ? false : true;
+            break;
+
+    }
+}
+
+extern "C" void SMARTPluginInit(SMARTInfo* ptr, bool* ReplaceButtons, int* ButtonCount, char** * ButtonText, int** ButtonIDs, _SMARTButtonPressed* ButtonCallback)
+{
+    SmartGlobal = ptr;
+    if (ptr)
+    {
+        *ReplaceButtons = true;
+        char** ButtonTexts = new char* [2];
+        ButtonTexts[0] = const_cast<char*>("Disable Direct-X_Enable Direct-X");
+        ButtonTexts[1] = const_cast<char*>("Enable Debug_Disable Debug");
+
+        int* IDs = new int[2];
+        IDs[0] = 100;
+        IDs[1] = 101;
+
+        *ButtonCount = 2;
+        *ButtonText = ButtonTexts;
+        *ButtonIDs = IDs;
+        *ButtonCallback = &SMARTButtonPressed;
+    }
+}
+
+void LoadTexture(IDirect3DDevice9* Device, unsigned char* buffer, int width, int height, IDirect3DTexture9*& Texture, ID3DXSprite*& Sprite)
+{
+    Device->CreateTexture(width, height, 1, 0, /*D3DFMT_X8R8G8B8*/D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &Texture, 0);
+    D3DXCreateSprite(Device, &Sprite);
+
+    D3DLOCKED_RECT rect;
+    Texture->LockRect(0, &rect, nullptr, D3DLOCK_DISCARD);
+    TexturePixels = static_cast<unsigned char*>(rect.pBits);
+    Texture->UnlockRect(0);
+
+    memcpy(TexturePixels, &buffer[0], width * height * 4);
+}
+
+void LoadTexture(IDirect3DDevice9* Device, const char* FilePath, IDirect3DTexture9*& Texture, ID3DXSprite*& Sprite)
+{
+    D3DXCreateTextureFromFileEx(Device, FilePath,
+                                D3DX_DEFAULT_NONPOW2, //width
+                                D3DX_DEFAULT_NONPOW2, //height
+                                1, //mip map levels
+                                0, //usage
+                                D3DFMT_FROM_FILE, //D3DFMT_X8B8G8R8, //format
+                                D3DPOOL_MANAGED,//D3DPOOL_DEFAULT,//D3DPOOL_MANAGED, //pool
+                                D3DX_DEFAULT,
+                                D3DX_DEFAULT,
+                                0xFF000000, //alpha is FF
+                                nullptr, //D3DXIMAGE_INFO*
+                                nullptr,
+                                &Texture);
+    D3DXCreateSprite(Device, &Sprite);
+}
+
+void DrawTextureSprite(IDirect3DDevice9* Device, IDirect3DTexture9* Texture, ID3DXSprite* Sprite)
+{
+    if (Sprite && Texture)
+    {
+        /*D3DXMATRIX world = {0}, rotation = {0}, scale = {0}, translation = {0};
+        D3DXMatrixIdentity(&world);
+
+        D3DXMatrixScaling(&scale, 1.0f, 1.0f, 1.0f);
+        D3DXMatrixRotationYawPitchRoll(&rotation, 0.0f, 0.0f, 0.0f);
+        D3DXMatrixTranslation(&translation, 0.0f, 0.0f, 0.0f);
+        world = rotation * scale * translation;
+
+        Sprite->SetTransform(&world);*/
+
+        /*Device->SetRenderState(D3DRS_ALPHABLENDENABLE,  TRUE);
+        Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+        Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);*/
+
+        //Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        //Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+        D3DXVECTOR3 Position = D3DXVECTOR3(0, 0, 0);
+        Sprite->Begin(D3DXSPRITE_ALPHABLEND);
+        Sprite->Draw(Texture, nullptr, nullptr, &Position, D3DCOLOR_RGBA(0xFF, 0xFF, 0xFF, 0xFF)); //0xFFFFFFFF - white..
+        Sprite->End();
+    }
+}
+
+void BltSmartBuffer(IDirect3DDevice9* Device)
+{
+    if (SmartGlobal != nullptr)
+    {
+        std::uint8_t* Ptr = reinterpret_cast<std::uint8_t*>(SmartGlobal->dbg);
+        for (int I = 0; I < SmartGlobal->height; ++I)
+        {
+            for (int J = 0; J < SmartGlobal->width; ++J)
+            {
+                std::uint8_t B = *(Ptr++);
+                std::uint8_t G = *(Ptr++);
+                std::uint8_t R = *(Ptr++);
+                *(Ptr++) = (B == 0 && G == 0 && R == 0) ? 0 : 0xFF;
+            }
+        }
+
+        if (!Texture)
+        {
+            LoadTexture(Device, static_cast<unsigned char*>(SmartGlobal->dbg), SmartGlobal->width, SmartGlobal->height, Texture, Sprite);
+        }
+        else
+        {
+            memcpy(TexturePixels, SmartGlobal->dbg, SmartGlobal->width * SmartGlobal->height * 4);
+        }
+
+        DrawTextureSprite(Device, Texture, Sprite);
+        SafeRelease(Texture);
+        SafeRelease(Sprite);
+    }
+}
+
+HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, HDC& DC, int& Width, int& Height, D3DFORMAT Format)
+{
+    IDirect3DSurface9* RenderTarget = nullptr;
+    IDirect3DSurface9* DestTarget = nullptr;
+    HRESULT result = Device->GetRenderTarget(0, &RenderTarget);
+
+    if (result == S_OK)
+    {
+        if (Width == 0 || Height == 0 || Format == D3DFMT_UNKNOWN)
+        {
+            D3DSURFACE_DESC descriptor = {};
+            RenderTarget->GetDesc(&descriptor);
+            Width = descriptor.Width;
+            Height = descriptor.Height;
+            Format = descriptor.Format;
+        }
+
+        RenderTarget->GetDC(&DC);
+        result = Device->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, &DestTarget, nullptr);
+        result = Device->GetRenderTargetData(RenderTarget, DestTarget);
+
+        D3DLOCKED_RECT rect;
+        DestTarget->LockRect(&rect, 0, D3DLOCK_READONLY);
+        memcpy(Buffer, rect.pBits, Width * Height * 4);
+        DestTarget->UnlockRect();
+    }
+
+    SafeRelease(RenderTarget);
+    SafeRelease(DestTarget);
+    return result;
+}
+
+struct VERTEX_2D_DIF
+{
+    float x, y, z, rhw;
+    D3DCOLOR color;
+    static const DWORD FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE;
+};
+
+void DrawCircle(IDirect3DDevice9* Device, float mx, float my, float r, D3DCOLOR color)
+{
+    static const int CIRCLE_RESOLUTION = 50;
+
+    VERTEX_2D_DIF verts[CIRCLE_RESOLUTION + 1];
+
+    for (int i = 0; i < CIRCLE_RESOLUTION + 1; ++i)
+    {
+        verts[i].x = mx + r * cos(D3DX_PI * (i / (CIRCLE_RESOLUTION / 2.0f)));
+        verts[i].y = my + r * sin(D3DX_PI * (i / (CIRCLE_RESOLUTION / 2.0f)));
+        verts[i].z = 0;
+        verts[i].rhw = 1;
+        verts[i].color = color;
+    }
+
+    Device->SetFVF(VERTEX_2D_DIF::FVF);
+    Device->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, CIRCLE_RESOLUTION-1, &verts, sizeof(VERTEX_2D_DIF));
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="d3d9" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/d3d9" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-m32" />
+					<Add option="-DBUILD_DLL" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl,--enable-stdcall-fixup" />
+					<Add option="-Wl,--kill-at -d --input-def d3d9.def" />
+					<Add option="-m32" />
+					<Add library="user32" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/d3d9" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-m32" />
+					<Add option="-DBUILD_DLL" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-Wl,--enable-stdcall-fixup" />
+					<Add option="-Wl,--kill-at -d --input-def d3d9.def" />
+					<Add option="-m32" />
+					<Add library="user32" />
+					<Add library="d3dx9" />
+					<Add library="d3dx9_43" />
+					<Add library="d3d9" />
+					<Add library="gdi32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="Graphics.cpp" />
+		<Unit filename="Graphics.hpp" />
+		<Unit filename="Hooks/Direct3DDevice9Proxy.cpp" />
+		<Unit filename="Hooks/Direct3DDevice9Proxy.hpp" />
+		<Unit filename="Hooks/Exports.cpp" />
+		<Unit filename="Hooks/Exports.hpp" />
+		<Unit filename="Hooks/Hooks.cpp" />
+		<Unit filename="Hooks/Hooks.hpp" />
+		<Unit filename="Hooks/IDirect3D9Proxy.cpp" />
+		<Unit filename="Hooks/IDirect3D9Proxy.hpp" />
+		<Unit filename="Hooks/Library.cpp" />
+		<Unit filename="Hooks/Library.hpp" />
+		<Unit filename="SMARTPlugin.hpp" />
+		<Unit filename="SharedMemory.cpp" />
+		<Unit filename="SharedMemory.hpp" />
+		<Unit filename="SmartJNI.cpp" />
+		<Unit filename="d3d9.def" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

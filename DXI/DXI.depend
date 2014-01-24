@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1387667367 source:c:\users\brandon\desktop\dxi\sharedmemory.cpp
+1388751552 source:c:\users\brandon\desktop\dxi\sharedmemory.cpp
 	"SharedMemory.hpp"
 
-1387667354 c:\users\brandon\desktop\dxi\sharedmemory.hpp
+1388751552 c:\users\brandon\desktop\dxi\sharedmemory.hpp
 	<windows.h>
 	<sys/types.h>
 	<sys/mman.h>
@@ -12,4 +12,9 @@
 	<tchar.h>
 	<iostream>
 	<map>
+
+1388753939 source:c:\users\brandon\desktop\dxi\main.cpp
+	<windows.h>
+	<memory>
+	"SharedMemory.hpp"
 
