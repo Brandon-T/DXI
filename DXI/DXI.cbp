@@ -45,8 +45,14 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="Resources/Resource.hpp" />
+		<Unit filename="Resources/Resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="SharedMemory.cpp" />
 		<Unit filename="SharedMemory.hpp" />
+		<Unit filename="Utilities.cpp" />
+		<Unit filename="Utilities.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

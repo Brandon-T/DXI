@@ -1,0 +1,1 @@
+#define IDR_D3D9X43 1001

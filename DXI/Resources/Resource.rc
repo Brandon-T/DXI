@@ -1,0 +1,8 @@
+#include "Resource.hpp"
+//--target=pe-i386 || --target=pe-x86-64 -D__x86_64
+
+#ifndef __x86_64
+IDR_D3D9X43		BINARY				"D3DX9_43_32.dll"
+#else
+IDR_D3D9X43		BINARY				"D3DX9_43_64.dll"
+#endif
