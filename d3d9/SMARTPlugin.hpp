@@ -18,9 +18,10 @@
 #ifndef _SMART_PLUGIN
 #define _SMART_PLUGIN
 
-#include <d3dx9.h>
+#include <d3d9.h>
 #include <vector>
-#include "Graphics.hpp"
+#include <cstdint>
+#include <cmath>
 
 typedef void (*_SMARTGetMousePos)(int &x, int &y);
 typedef void (*_SMARTSetCapture)(bool enabled);
@@ -35,19 +36,27 @@ typedef struct
     _SMARTSetCapture setCapture;
 } SMARTInfo;
 
-
+template<typename T>
+void SafeRelease(T* &Ptr)
+{
+    if (Ptr)
+    {
+        Ptr->Release();
+        Ptr = nullptr;
+    }
+}
 
 typedef void (*_SMARTPluginInit)(SMARTInfo* ptr, bool* ReplaceButtons, int* ButtonCount, char*** ButtonText, int** ButtonIDs, _SMARTButtonPressed* ButtonCallback);
 
-extern ID3DXSprite* Sprite;
 extern IDirect3DTexture9* Texture;
-extern unsigned char* TexturePixels;
+extern std::uint8_t* TexturePixels;
+
 extern SMARTInfo* SmartGlobal;
 extern bool SmartDebugEnabled;
 extern bool SmartDirectXEnabled;
+
 void BltSmartBuffer(IDirect3DDevice9* Device);
-void FlipImageBytes(void* In, void* &Out, int width, int height, unsigned int Bpp = 32);
 HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, HDC &DC, int &Width, int &Height, D3DFORMAT Format = D3DFMT_UNKNOWN);
-void DrawCircle(IDirect3DDevice9* Device, float mx, float my, float r, D3DCOLOR color = D3DCOLOR_XRGB(255, 0, 0));
+void DrawCircle(IDirect3DDevice9* Device, float mx, float my, float r, D3DCOLOR colour = D3DCOLOR_RGBA(0xFF, 0x00, 0x00, 0xFF));
 
 #endif

@@ -242,3 +242,175 @@
 1390554680 source:c:\users\school\desktop\direct-x\d3d9\main.cpp
 	"Hooks/Exports.hpp"
 
+1391233088 source:c:\users\school\desktop\d3d9\graphics.cpp
+	"Graphics.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\graphics.hpp
+	<d3d9.h>
+	<D3Dx9tex.h>
+	<cstdint>
+	<memory>
+	"Images.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\images.hpp
+	<iostream>
+	<fstream>
+	<vector>
+	<cstring>
+	<stdexcept>
+	<windows.h>
+
+1391233088 source:c:\users\school\desktop\d3d9\hooks\exports.cpp
+	"Exports.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\hooks\exports.hpp
+	<d3d9.h>
+	<stdexcept>
+	"Library.hpp"
+	"IDirect3D9Proxy.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\hooks\library.hpp
+	<windows.h>
+	<string>
+	<cstdint>
+	<stdexcept>
+
+1391233088 c:\users\school\desktop\d3d9\hooks\idirect3d9proxy.hpp
+	<d3d9.h>
+	"Direct3DDevice9Proxy.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\hooks\direct3ddevice9proxy.hpp
+	<d3d9.h>
+	"../Graphics.hpp"
+	"../SMARTPlugin.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\smartplugin.hpp
+	<d3dx9.h>
+	<vector>
+	"Graphics.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9\hooks\hooks.cpp
+	"Hooks.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\hooks\hooks.hpp
+	<cstring>
+	<vector>
+	<memory>
+	"Exports.hpp"
+	"../SharedMemory.hpp"
+	"../SMARTPlugin.hpp"
+
+1391233088 c:\users\school\desktop\d3d9\sharedmemory.hpp
+	<windows.h>
+	<sys/types.h>
+	<sys/mman.h>
+	<dlfcn.h>
+	<fcntl.h>
+	<unistd.h>
+	<tchar.h>
+	<iostream>
+	<map>
+
+1391233088 source:c:\users\school\desktop\d3d9\hooks\idirect3d9proxy.cpp
+	"IDirect3D9Proxy.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9\hooks\library.cpp
+	"Library.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9\main.cpp
+	"Hooks/Exports.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9\sharedmemory.cpp
+	"SharedMemory.hpp"
+
+1391233252 source:c:\users\school\desktop\d3d9\smartjni.cpp
+	"SmartPlugin.hpp"
+	<iostream>
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\graphics.cpp
+	"Graphics.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\graphics.hpp
+	<d3d9.h>
+	<D3Dx9tex.h>
+	<cstdint>
+	<memory>
+	"Images.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\images.hpp
+	<iostream>
+	<fstream>
+	<vector>
+	<cstring>
+	<stdexcept>
+	<windows.h>
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\hooks\exports.cpp
+	"Exports.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\hooks\exports.hpp
+	<d3d9.h>
+	<stdexcept>
+	"Library.hpp"
+	"IDirect3D9Proxy.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\hooks\library.hpp
+	<windows.h>
+	<string>
+	<cstdint>
+	<stdexcept>
+
+1391233088 c:\users\school\desktop\d3d9 - copy\hooks\idirect3d9proxy.hpp
+	<d3d9.h>
+	"Direct3DDevice9Proxy.hpp"
+
+1391282057 c:\users\school\desktop\d3d9 - copy\hooks\direct3ddevice9proxy.hpp
+	<d3d9.h>
+	"../SMARTPlugin.hpp"
+
+1391282007 c:\users\school\desktop\d3d9 - copy\smartplugin.hpp
+	<d3d9.h>
+	<vector>
+	<cstdint>
+	<cmath>
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\hooks\hooks.cpp
+	"Hooks.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\hooks\hooks.hpp
+	<cstring>
+	<vector>
+	<memory>
+	"Exports.hpp"
+	"../SharedMemory.hpp"
+	"../SMARTPlugin.hpp"
+
+1391233088 c:\users\school\desktop\d3d9 - copy\sharedmemory.hpp
+	<windows.h>
+	<sys/types.h>
+	<sys/mman.h>
+	<dlfcn.h>
+	<fcntl.h>
+	<unistd.h>
+	<tchar.h>
+	<iostream>
+	<map>
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\hooks\idirect3d9proxy.cpp
+	"IDirect3D9Proxy.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\hooks\library.cpp
+	"Library.hpp"
+
+1391281937 source:c:\users\school\desktop\d3d9 - copy\main.cpp
+	"Hooks/Exports.hpp"
+
+1391233088 source:c:\users\school\desktop\d3d9 - copy\sharedmemory.cpp
+	"SharedMemory.hpp"
+
+1391282746 source:c:\users\school\desktop\d3d9 - copy\hooks\direct3ddevice9proxy.cpp
+	"Direct3DDevice9Proxy.hpp"
+
+1391281889 source:c:\users\school\desktop\d3d9 - copy\smartjni.cpp
+	"SmartPlugin.hpp"
+

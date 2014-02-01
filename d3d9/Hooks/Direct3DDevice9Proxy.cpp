@@ -96,6 +96,7 @@ UINT Direct3DDevice9Proxy::GetNumberOfSwapChains()
 
 HRESULT Direct3DDevice9Proxy::Reset(D3DPRESENT_PARAMETERS* pPresentationParameters)
 {
+    SafeRelease(Texture);
     return ptr_Direct3DDevice9->Reset(pPresentationParameters);
 }
 
@@ -230,43 +231,41 @@ HRESULT Direct3DDevice9Proxy::EndScene()
     if (SmartGlobal && SmartGlobal->version)
     {
         dxReadPixels(ptr_Direct3DDevice9, SmartGlobal->img, hdc, SmartGlobal->width, SmartGlobal->height);
-        if (!IsIconic(WindowFromDC(hdc)))
+
+        IDirect3DStateBlock9* block;
+        ptr_Direct3DDevice9->CreateStateBlock(D3DSBT_ALL, &block);
+        block->Capture();
+
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_LIGHTING, FALSE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_FOGENABLE, FALSE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+        if (SmartDebugEnabled)
         {
-
-            if (SmartDebugEnabled)
-            {
-                BltSmartBuffer(ptr_Direct3DDevice9);
-            }
-
-            int X = 0, Y = 0;
-            SmartGlobal->getMousePos(X, Y);
-            if (X != -1 && Y != -1)
-            {
-                //SetRenderState(D3DRS_POINTSIZE,...).  //Not cross-hardware compatible..
-                //ptr_Direct3DDevice9->DrawPrimitive(D3DPT_POINTLIST, 0, 6);
-                //DrawCircle(ptr_Direct3DDevice9, X, Y, 2); //Weird behaviour
-            }
+            BltSmartBuffer(ptr_Direct3DDevice9);
         }
+
+        int X = -1, Y = -1;
+        SmartGlobal->getMousePos(X, Y);
+
+        if (X > -1 && Y > -1)
+        {
+            //ptr_Direct3DDevice9->SetRenderState(D3DRS_ZFUNC,D3DCMP_NEVER);
+            ptr_Direct3DDevice9->SetTexture(0, nullptr);
+            ptr_Direct3DDevice9->SetPixelShader(nullptr);
+            ptr_Direct3DDevice9->SetVertexShader(nullptr);
+            DrawCircle(ptr_Direct3DDevice9, X, Y, 2.5f);
+        }
+
+        block->Apply();
+        block->Release();
     }
-
-    /**Removed because Direct-X can be captured from Targets without plugins**/
-    /*else
-    {
-        if (!SharedImageData || !SharedImageData->GetDataPointer())
-        {
-            CreateSharedMemory(getpid()) || OpenSharedMemory(getpid());
-        }
-
-        int Width = 0, Height = 0;
-        void* ImgPtr = SharedImageData->GetDataPointer();
-        dxReadPixels(ptr_Direct3DDevice9, ImgPtr, hdc, Width, Height);
-
-        if (!IsIconic(WindowFromDC(hdc)))
-        {
-            void* DbgPtr = reinterpret_cast<std::uint8_t*>(SharedImageData->GetDataPointer()) + SharedImageSize;
-            BltMappedBuffer(DbgPtr, Width, Height);
-        }
-    }*/
 
     return ptr_Direct3DDevice9->EndScene();
 }

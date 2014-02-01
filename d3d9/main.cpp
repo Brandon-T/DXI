@@ -11,7 +11,6 @@ extern "C" bool __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lp
             }
 
         case DLL_PROCESS_DETACH:
-            SafeRelease(Sprite);
             SafeRelease(Texture);
             DeInitialize();
             break;

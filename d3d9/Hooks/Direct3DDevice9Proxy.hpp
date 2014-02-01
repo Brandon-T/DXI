@@ -2,7 +2,6 @@
 #define DIRECT3DDEVICE9PROXY_HPP_INCLUDED
 
 #include <d3d9.h>
-#include "../Graphics.hpp"
 #include "../SMARTPlugin.hpp"
 
 class Direct3DDevice9Proxy : public IDirect3DDevice9
