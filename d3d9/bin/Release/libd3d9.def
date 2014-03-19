@@ -1,0 +1,18 @@
+LIBRARY "d3d9.dll" BASE=0x0000000069640000
+DESCRIPTION "D3D9 Definition File"
+EXPORTS
+    D3DPERF_BeginEvent = DXHook_D3DPERF_BeginEvent @1
+    D3DPERF_EndEvent = DXHook_D3DPERF_EndEvent @2
+    D3DPERF_GetStatus = DXHook_D3DPERF_GetStatus @3
+    D3DPERF_QueryRepeatFrame = DXHook_D3DPERF_QueryRepeatFrame @4
+    D3DPERF_SetMarker = DXHook_D3DPERF_SetMarker @5
+    D3DPERF_SetOptions = DXHook_D3DPERF_SetOptions @6
+    D3DPERF_SetRegion = DXHook_D3DPERF_SetRegion @7
+    DebugSetLevel = DXHook_DebugSetLevel @8
+    DebugSetMute = DXHook_DebugSetMute @9
+    Direct3DCreate9 = DXHook_Direct3DCreate9 @10
+    Direct3DCreate9Ex = DXHook_Direct3DCreate9Ex @11
+    Direct3DShaderValidatorCreate9 = DXHook_Direct3DShaderValidatorCreate9 @12
+    PSGPError = DXHook_PSGPError @13
+    PSGPSampleTexture = DXHook_PSGPSampleTexture @14
+    SMARTPluginInit @15

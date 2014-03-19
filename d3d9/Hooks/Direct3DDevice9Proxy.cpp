@@ -240,7 +240,7 @@ HRESULT Direct3DDevice9Proxy::EndScene()
         ptr_Direct3DDevice9->SetRenderState(D3DRS_FOGENABLE, FALSE);
         ptr_Direct3DDevice9->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
         ptr_Direct3DDevice9->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        ptr_Direct3DDevice9->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        ptr_Direct3DDevice9->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE); //DISABLED 2014-02-28..
         ptr_Direct3DDevice9->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
         ptr_Direct3DDevice9->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
         ptr_Direct3DDevice9->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);

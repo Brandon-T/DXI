@@ -152,12 +152,13 @@ void BltSmartBuffer(IDirect3DDevice9* Device)
         {
             LoadTexture(Device, static_cast<unsigned char*>(SmartGlobal->dbg), SmartGlobal->width, SmartGlobal->height, Texture);
         }
-        else
+        /*else
         {
             memcpy(TexturePixels, SmartGlobal->dbg, SmartGlobal->width * SmartGlobal->height * 4);
-        }
+        }*/
 
         DrawTexture(Device, Texture, 0, 0, SmartGlobal->width, SmartGlobal->height);
+        SafeRelease(Texture);
     }
 }
 

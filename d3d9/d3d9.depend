@@ -414,3 +414,72 @@
 1391281889 source:c:\users\school\desktop\d3d9 - copy\smartjni.cpp
 	"SmartPlugin.hpp"
 
+1395252587 source:c:\users\brandon\desktop\dxi-master\d3d9\hooks\direct3ddevice9proxy.cpp
+	"Direct3DDevice9Proxy.hpp"
+
+1393640051 c:\users\brandon\desktop\dxi-master\d3d9\hooks\direct3ddevice9proxy.hpp
+	<d3d9.h>
+	"../SMARTPlugin.hpp"
+
+1393640050 c:\users\brandon\desktop\dxi-master\d3d9\smartplugin.hpp
+	<d3d9.h>
+	<vector>
+	<cstdint>
+	<cmath>
+
+1393640051 source:c:\users\brandon\desktop\dxi-master\d3d9\hooks\hooks.cpp
+	"Hooks.hpp"
+
+1393640051 c:\users\brandon\desktop\dxi-master\d3d9\hooks\hooks.hpp
+	<cstring>
+	<vector>
+	<memory>
+	"Exports.hpp"
+	"../SharedMemory.hpp"
+	"../SMARTPlugin.hpp"
+
+1393640051 c:\users\brandon\desktop\dxi-master\d3d9\hooks\exports.hpp
+	<d3d9.h>
+	<stdexcept>
+	"Library.hpp"
+	"IDirect3D9Proxy.hpp"
+
+1393640051 c:\users\brandon\desktop\dxi-master\d3d9\hooks\library.hpp
+	<windows.h>
+	<string>
+	<cstdint>
+	<stdexcept>
+
+1393640051 c:\users\brandon\desktop\dxi-master\d3d9\hooks\idirect3d9proxy.hpp
+	<d3d9.h>
+	"Direct3DDevice9Proxy.hpp"
+
+1393640050 c:\users\brandon\desktop\dxi-master\d3d9\sharedmemory.hpp
+	<windows.h>
+	<sys/types.h>
+	<sys/mman.h>
+	<dlfcn.h>
+	<fcntl.h>
+	<unistd.h>
+	<tchar.h>
+	<iostream>
+	<map>
+
+1393640051 source:c:\users\brandon\desktop\dxi-master\d3d9\hooks\idirect3d9proxy.cpp
+	"IDirect3D9Proxy.hpp"
+
+1393640051 source:c:\users\brandon\desktop\dxi-master\d3d9\hooks\library.cpp
+	"Library.hpp"
+
+1393640051 source:c:\users\brandon\desktop\dxi-master\d3d9\main.cpp
+	"Hooks/Exports.hpp"
+
+1393640050 source:c:\users\brandon\desktop\dxi-master\d3d9\sharedmemory.cpp
+	"SharedMemory.hpp"
+
+1393640050 source:c:\users\brandon\desktop\dxi-master\d3d9\smartjni.cpp
+	"SmartPlugin.hpp"
+
+1395252385 source:c:\users\brandon\desktop\dxi-master\d3d9\hooks\exports.cpp
+	"Exports.hpp"
+

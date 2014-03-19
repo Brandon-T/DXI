@@ -28,15 +28,22 @@ bool __stdcall Initialize(void)
 	    OriginalDX->FunctionAddress(d3d9.DebugSetMute, "DebugSetMute");
 	    //OriginalDX->FunctionAddress(d3d9.Direct3D9EnableMaximizedWindowedModeShim, "Direct3D9EnableMaximizedWindowedModeShim");
 		OriginalDX->FunctionAddress(d3d9.Direct3DCreate9, "Direct3DCreate9");
-		OriginalDX->FunctionAddress(d3d9.Direct3DCreate9Ex, "Direct3DCreate9Ex");
 		OriginalDX->FunctionAddress(d3d9.Direct3DShaderValidatorCreate9, "Direct3DShaderValidatorCreate9");
 		OriginalDX->FunctionAddress(d3d9.PSGPError, "PSGPError");
 		OriginalDX->FunctionAddress(d3d9.PSGPSampleTexture, "PSGPSampleTexture");
+		OriginalDX->FunctionAddress(d3d9.Direct3DCreate9Ex, "Direct3DCreate9Ex");
 	}
 	catch(std::exception &e)
 	{
-	    MessageBox(nullptr, e.what(), "ERROR!", 0);
-		return false;
+	    //MessageBox(nullptr, e.what(), "ERROR!", 0);
+
+	    CONSOLE_SCREEN_BUFFER_INFO Info;
+	    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+        GetConsoleScreenBufferInfo(hStdout, &Info);
+        int Attributes = Info.wAttributes;
+	    SetConsoleTextAttribute(hStdout, FOREGROUND_RED | FOREGROUND_INTENSITY);
+	    std::printf("\n\nDirect-X ERROR:  %s\n\n\n", e.what());
+	    SetConsoleTextAttribute(hStdout, Attributes);
 	}
 	return true;
 }
