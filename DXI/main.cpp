@@ -15,8 +15,8 @@ std::string SharedImageName = "Local\\DXIImage_";
 
 char* Exports[] =
 {
-    (char*)"DXISetup", (char*)"Function DXISetup(WindowHandle: PtrUInt32): Boolean;",
-    (char*)"DXISetupEx", (char*)"Function DXISetup(WindowHandle: PtrUInt32; Width, Height: UInt32): Boolean; overload;",
+    (char*)"DXISetup", (char*)"Function DXISetup(WindowHandle: PtrUInt): Boolean;",
+    (char*)"DXISetupEx", (char*)"Function DXISetup(WindowHandle: PtrUInt; Width, Height: UInt32): Boolean; overload;",
     (char*)"DXIImagePointer", (char*)"Function DXIImagePointer: Pointer;",
     (char*)"DXIDebugPointer", (char*)"Function DXIDebugPointer: Pointer;",
     (char*)"DXIAutoFix", (char*)"Function DXIAutoFix(Plugins_Path: String): Boolean;"
