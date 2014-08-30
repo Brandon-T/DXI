@@ -227,10 +227,11 @@ HRESULT Direct3DDevice9Proxy::BeginScene()
 
 HRESULT Direct3DDevice9Proxy::EndScene()
 {
-    HDC hdc = nullptr;
+    bool isMinimised = false;
+
     if (SmartGlobal && SmartGlobal->version)
     {
-        dxReadPixels(ptr_Direct3DDevice9, SmartGlobal->img, hdc, SmartGlobal->width, SmartGlobal->height);
+        dxReadPixels(ptr_Direct3DDevice9, SmartGlobal->img, isMinimised, SmartGlobal->width, SmartGlobal->height);
 
         IDirect3DStateBlock9* block;
         ptr_Direct3DDevice9->CreateStateBlock(D3DSBT_ALL, &block);
@@ -246,7 +247,7 @@ HRESULT Direct3DDevice9Proxy::EndScene()
         ptr_Direct3DDevice9->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-        if (SmartDebugEnabled)
+        if (SmartDebugEnabled && !isMinimised)
         {
             BltSmartBuffer(ptr_Direct3DDevice9);
         }

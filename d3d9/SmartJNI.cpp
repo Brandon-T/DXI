@@ -162,7 +162,7 @@ void BltSmartBuffer(IDirect3DDevice9* Device)
     }
 }
 
-HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, HDC& DC, int& Width, int& Height, D3DFORMAT Format)
+HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, bool& Minimised, int& Width, int& Height, D3DFORMAT Format)
 {
     IDirect3DSurface9* RenderTarget = nullptr;
     IDirect3DSurface9* DestTarget = nullptr;
@@ -179,7 +179,10 @@ HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, HDC& DC, int& Width
             Format = descriptor.Format;
         }
 
+        HDC DC = nullptr;
         RenderTarget->GetDC(&DC);
+        Minimised = IsIconic(WindowFromDC(DC));
+        RenderTarget->ReleaseDC(DC);
         result = Device->CreateOffscreenPlainSurface(Width, Height, Format, D3DPOOL_SYSTEMMEM, &DestTarget, nullptr);
         result = Device->GetRenderTargetData(RenderTarget, DestTarget);
 

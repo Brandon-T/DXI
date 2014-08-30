@@ -56,7 +56,7 @@ extern bool SmartDebugEnabled;
 extern bool SmartDirectXEnabled;
 
 void BltSmartBuffer(IDirect3DDevice9* Device);
-HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, HDC &DC, int &Width, int &Height, D3DFORMAT Format = D3DFMT_UNKNOWN);
+HRESULT dxReadPixels(IDirect3DDevice9* Device, void* Buffer, bool& Minimised, int &Width, int &Height, D3DFORMAT Format = D3DFMT_UNKNOWN);
 void DrawCircle(IDirect3DDevice9* Device, float mx, float my, float r, D3DCOLOR colour = D3DCOLOR_RGBA(0xFF, 0x00, 0x00, 0xFF));
 
 #endif

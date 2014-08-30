@@ -15,7 +15,8 @@ std::string SharedImageName = "Local\\DXIImage_";
 
 char* Exports[] =
 {
-    (char*)"DXISetup", (char*)"Function DXISetup(ProcessID: Integer): Boolean;",
+    (char*)"DXISetup", (char*)"Function DXISetup(WindowHandle: PtrUInt32): Boolean;",
+    (char*)"DXISetupEx", (char*)"Function DXISetup(WindowHandle: PtrUInt32; Width, Height: UInt32): Boolean; overload;",
     (char*)"DXIImagePointer", (char*)"Function DXIImagePointer: Pointer;",
     (char*)"DXIDebugPointer", (char*)"Function DXIDebugPointer: Pointer;",
     (char*)"DXIAutoFix", (char*)"Function DXIAutoFix(Plugins_Path: String): Boolean;"
@@ -36,13 +37,13 @@ extern "C" int __declspec(dllexport) GetFunctionInfo(int Index, void*& Address, 
     if (Index < ExportCount)
     {
         Address = reinterpret_cast<void*>(GetProcAddress(hInstance, Exports[Index * 2]));
-#ifdef _MSC_VER
-#pragma warning(disable: 4996)
+        #ifdef _MSC_VER
+        #pragma warning(disable: 4996)
         strcpy(Definition, Exports[Index * 2 + 1]);
         //strcpy_s(Definition, Exports[Index * 2 + 1]);
-#else
+        #else
         strcpy(Definition, Exports[Index * 2 + 1]);
-#endif
+        #endif
         return Index;
     }
     return -1;
@@ -50,27 +51,21 @@ extern "C" int __declspec(dllexport) GetFunctionInfo(int Index, void*& Address, 
 
 void GetDesktopResolution(int& width, int& height)
 {
-#if defined _WIN32 || defined _WIN64
+    #if defined _WIN32 || defined _WIN64
     RECT desktop = {0};
     const HWND hDesktop = GetDesktopWindow();
     GetWindowRect(hDesktop, &desktop);
     width = desktop.right;
     height = desktop.bottom;
-#endif
+    #endif
 }
 
-bool CreateSharedMemory(int ProcessID)
+bool OpenSharedMemory(DWORD ProcessID, unsigned int Width, unsigned int Height)
 {
-    int Width = 0, Height = 0;
-    GetDesktopResolution(Width, Height);
-    SharedImageData.reset(new SharedMemory(SharedImageName + std::to_string(ProcessID)));
-    return SharedImageData->MapMemory(Width || Height == 0 ? TotalImageSize : Width * Height * 4 * 2);
-}
-
-bool OpenSharedMemory(int ProcessID)
-{
-    int Width = 0, Height = 0;
-    GetDesktopResolution(Width, Height);
+    if (Width == 0 || Height == 0)
+    {
+        GetDesktopResolution((int&)Width, (int&)Height);
+    }
     SharedImageData.reset(new SharedMemory(SharedImageName + std::to_string(ProcessID)));
     return SharedImageData->OpenMemoryMap(Width || Height == 0 ? SharedImageSize : Width * Height * 4 * 2);
 }
@@ -81,9 +76,16 @@ bool UnMapSharedMemory()
     return true;
 }
 
-extern "C" bool __declspec(dllexport) DXISetup(int ProcessID)
+extern "C" bool __declspec(dllexport) DXISetupEx(HWND WindowHandle, unsigned int Width, unsigned int Height)
 {
-    return OpenSharedMemory(ProcessID);
+    DWORD PID = 0;
+    GetWindowThreadProcessId(WindowHandle, &PID);
+    return OpenSharedMemory(PID, Width, Height);
+}
+
+extern "C" bool __declspec(dllexport) DXISetup(HWND WindowHandle)
+{
+    return DXISetupEx(WindowHandle, 0, 0);
 }
 
 extern "C" void* __declspec(dllexport) DXIImagePointer()
